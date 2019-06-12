@@ -26,9 +26,7 @@ import sk.fri.uniza.client.WindFarmRequest;
 import sk.fri.uniza.configuration.WindFarmDemoConfiguration;
 import sk.fri.uniza.core.User;
 import sk.fri.uniza.health.TemplateHealthCheck;
-import sk.fri.uniza.resources.HelloWorldResource;
-import sk.fri.uniza.resources.LoginResource;
-import sk.fri.uniza.resources.PersonsResource;
+import sk.fri.uniza.resources.*;
 import sk.fri.uniza.views.ErrorView;
 import sk.fri.uniza.views.ValidationErrorView;
 
@@ -144,9 +142,13 @@ public class WindFarmDemoApplication extends Application<WindFarmDemoConfigurati
     private void registerResources(WindFarmDemoConfiguration configuration, Environment environment) {
         final HelloWorldResource helloWorldResource = new HelloWorldResource(configuration.getTemplate(), configuration.getDefaultName(),sessionsDB);
         final PersonsResource personsResource = new PersonsResource(sessionsDB);
+        final DataResource dataResource = new DataResource(sessionsDB);
+        final DeviceResource deviceResource = new DeviceResource(sessionsDB);
         environment.jersey().register(helloWorldResource);
         environment.jersey().register(new LoginResource(sessionsDB, configuration.getServiceDbAuth()));
         environment.jersey().register(personsResource);
+        environment.jersey().register(dataResource);
+        environment.jersey().register(deviceResource);
 
     }
 

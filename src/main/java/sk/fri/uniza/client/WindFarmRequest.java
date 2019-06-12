@@ -7,6 +7,8 @@ import sk.fri.uniza.api.AccessToken;
 import sk.fri.uniza.api.Paged;
 import sk.fri.uniza.api.Person;
 import sk.fri.uniza.api.PublicKey;
+import sk.fri.uniza.core.Data;
+import sk.fri.uniza.core.Device;
 
 import java.util.List;
 import java.util.Map;
@@ -42,4 +44,16 @@ public interface WindFarmRequest {
 
     @DELETE("/api/persons")
     Call<Void> deletePerson(@Header("Authorization") String bearerToken, @Query("id") Long id);
+
+    @GET("/api/data/{id}")
+    Call<Data> getData(@Header("Authorization") String authorization, @Path("id") Long id);
+
+    @GET("/api/data")
+    Call<Paged<List<Data>>> getPagedData(@Header("Authorization") String authorization, @Query("limit") Integer limit, @Query("page") Integer page);
+
+    @GET("/api/device/{id}")
+    Call<Device> getDevice(@Header("Authorization") String authorization, @Path("id") Long id);
+
+    @GET("/api/device")
+    Call<Paged<List<Device>>> getPagedDevice(@Header("Authorization") String authorization, @Query("limit") Integer limit, @Query("page") Integer page);
 }
