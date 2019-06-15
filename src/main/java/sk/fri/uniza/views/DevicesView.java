@@ -15,7 +15,7 @@ public class DevicesView extends MaterializePage<MaterializeHeader, MaterializeF
     private final User loginUser;
 
     public DevicesView(UriInfo uriInfo, List<Device> devices, Paged paged, Person loginUser) {
-        super("devices_table.ftl", uriInfo, new MaterializeHeader(loginUser, "Users", true), new MaterializeFooter());
+        super("devices_table.ftl", uriInfo, new MaterializeHeader(loginUser, "Device info", true), new MaterializeFooter());
         this.devices = devices;
         this.paged = paged;
         this.loginUser = loginUser;

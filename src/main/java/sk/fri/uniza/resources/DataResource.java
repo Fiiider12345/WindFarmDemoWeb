@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-@Path("/data")
+@Path("/datas")
 public class DataResource {
 
     final Logger myLogger = LoggerFactory.getLogger(this.getClass());

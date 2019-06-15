@@ -14,6 +14,7 @@
 {"title":"User info","icon":"person","url":"persons/user-info"},
 {"title":"Nový užívateľ","icon":"person_add","url":"persons/new-user","roles":["ADMIN"]},
 {"title":"Zoznam užívateľov","icon":"group","url":"persons","roles":["ADMIN"]},
+{"title":"Zoznam dat","icon":"group","url":"datas","roles":["ADMIN"]},
 
 {"subheader":"Subheader 2","divider":"true"},
 {"title":"ADMIN READ_ONLY","url":"#","roles":["ADMIN","USER_READ_ONLY"]},

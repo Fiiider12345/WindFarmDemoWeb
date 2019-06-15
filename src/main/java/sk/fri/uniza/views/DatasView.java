@@ -15,7 +15,7 @@ public class DatasView extends MaterializePage<MaterializeHeader, MaterializeFoo
     private final User loginUser;
 
     public DatasView(UriInfo uriInfo, List<Data> datas, Paged paged, Person loginUser) {
-        super("datas_table.ftl", uriInfo, new MaterializeHeader(loginUser, "Users", true), new MaterializeFooter());
+        super("datas_table.ftl", uriInfo, new MaterializeHeader(loginUser, "Datas", true), new MaterializeFooter());
         this.datas = datas;
         this.paged = paged;
         this.loginUser = loginUser;
