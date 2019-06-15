@@ -1,5 +1,7 @@
 package sk.fri.uniza.core;
 
+import java.util.Calendar;
+
 public class Data {
 
     private Long id;
@@ -8,21 +10,36 @@ public class Data {
     private String dateOfStart;
 
     public Data() {
+        Calendar cal=Calendar.getInstance();
+        dateOfStart = cal.get(Calendar.DAY_OF_MONTH)+"."+(cal.get(Calendar.MONTH)+1)+"."+cal.get(Calendar.YEAR)+
+                "  " + cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE);
     }
 
-    public Data(Float value, int idDevice, String dateOfStart) {
+    public Data(int idDevice) {
+        this.idDevice = idDevice;
+        Calendar cal=Calendar.getInstance();
+        dateOfStart = cal.get(Calendar.DAY_OF_MONTH)+"."+(cal.get(Calendar.MONTH)+1)+"."+cal.get(Calendar.YEAR)+
+                "  " + cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE);
+    }
+
+    public Data(Float value, int idDevice) {
         this.value = value;
         this.idDevice = idDevice;
-        this.dateOfStart = dateOfStart;
+        Calendar cal=Calendar.getInstance();
+        dateOfStart = cal.get(Calendar.DAY_OF_MONTH)+"."+(cal.get(Calendar.MONTH)+1)+"."+cal.get(Calendar.YEAR)+
+                "  " + cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE);
     }
 
-    public Data(Long id, Float value, int idDevice, String dateOfStart) {
+    public Data(Long id, Float value, int idDevice) {
         this.id = id;
         this.value = value;
         this.idDevice = idDevice;
-        this.dateOfStart = dateOfStart;
+        Calendar cal=Calendar.getInstance();
+        dateOfStart = cal.get(Calendar.DAY_OF_MONTH)+"."+(cal.get(Calendar.MONTH)+1)+"."+cal.get(Calendar.YEAR)+
+                "  " + cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE);
     }
 
+    //@JsonProperty
     public Long getId() {
         return id;
     }
@@ -31,6 +48,7 @@ public class Data {
         this.id = id;
     }
 
+    //@JsonProperty
     public Float getValue() {
         return value;
     }
@@ -39,6 +57,7 @@ public class Data {
         this.value = value;
     }
 
+    //@JsonProperty
     public int getIdDevice() {
         return idDevice;
     }
@@ -47,6 +66,7 @@ public class Data {
         this.idDevice = idDevice;
     }
 
+    //@JsonProperty
     public String getDateOfStart() {
         return dateOfStart;
     }

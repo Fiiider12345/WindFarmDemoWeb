@@ -8,7 +8,7 @@
                 <th>ID</th>
                 <th>Hodnota</th>
                 <th>Zariadenie</th>
-                <th>cas</th>
+                <th>DD.MM.YY  HH:MM</th>
             </tr>
             </thead>
             <tbody>
@@ -25,6 +25,12 @@
                     </td>
                     <td>
                         ${data.dateOfStart}
+                    </td>
+                    <td>
+                        <a onclick="onDelete('/datas/data-delete?id=${data.getId()}&page=${paged.page}')"
+                           class="btn waves-effect waves-light red " name="action">
+                            <i class="material-icons">delete_forever</i>
+                        </a>
                     </td>
                 </tr>
             </#list>
@@ -56,3 +62,33 @@
     </div>
     <br><br>
 </div>
+<!-- Modal Trigger -->
+<#--<a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>-->
+
+<!-- Modal Structure -->
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h4>Chcete vymazať data?</h4>
+        <p></p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-red btn-flat">Nie</a>
+        <a id="modal_href" href="#!" class="modal-close waves-effect waves-green btn-flat">Áno</a>
+    </div>
+</div>
+
+<script>
+    function onDelete(url) {
+        $("#modal_href").attr("href", url);
+        // var elem = document.querySelector("#modal1")
+        // var instance = M.Modal.getInstance(elem);
+        // instance.open();
+        //
+        var elem = document.querySelector("#modal1");
+        var instance = M.Modal.init(elem);
+
+        instance.open();
+
+
+    }
+</script>

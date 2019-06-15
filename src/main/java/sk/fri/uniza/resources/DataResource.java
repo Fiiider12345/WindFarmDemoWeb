@@ -2,6 +2,7 @@ package sk.fri.uniza.resources;
 
 import io.dropwizard.auth.Auth;
 import io.dropwizard.views.View;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import retrofit2.Response;
@@ -12,16 +13,16 @@ import sk.fri.uniza.auth.Role;
 import sk.fri.uniza.auth.Session;
 import sk.fri.uniza.auth.Sessions;
 import sk.fri.uniza.core.Data;
+import sk.fri.uniza.core.DataBuilder;
 import sk.fri.uniza.core.User;
 import sk.fri.uniza.views.DatasView;
+import sk.fri.uniza.views.NewDataView;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.*;
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,4 +65,151 @@ public class DataResource {
         }
 
     }
+
+
+    @GET
+    @Path("/data-delete")
+    @Produces(MediaType.TEXT_HTML)
+    @RolesAllowed({Role.USER_READ_ONLY, Role.ADMIN})
+    public javax.ws.rs.core.Response dataDelete(@Auth User user, @Context UriInfo uriInfo, @Context HttpHeaders headers, @QueryParam("id") Long dataID, @QueryParam("page") Integer page) {
+
+        if (dataID == null) return null;
+
+        if (!user.getRoles().contains(Role.ADMIN) /*|| user.getId() == dataID*/)
+            throw new WebApplicationException(javax.ws.rs.core.Response.Status.UNAUTHORIZED);
+
+        Session session = sessionDao.getSession(headers);
+
+        Response<Void> response;
+        try {
+
+            response = WindFarmDemoApplication.getWindFarmServis().deleteData(session.getBearerToken(), dataID).execute();
+            if (response.isSuccessful()) {
+                URI uri = UriBuilder.fromPath("/datas")
+                        .queryParam("page", page)
+                        .build();
+                return javax.ws.rs.core.Response.seeOther(uri)
+                        .build();
+
+            }
+            throw new WebApplicationException(response.code());
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new WebApplicationException(e);
+        }
+
+    }
+
+    @GET
+    @Path("/new-data")
+    @Produces(MediaType.TEXT_HTML)
+    @RolesAllowed(Role.ADMIN)
+    public NewDataView newData(@Auth User user, @Context UriInfo uriInfo, @Context HttpHeaders headers) {
+        return new NewDataView(uriInfo, user, null);
+    }
+
+    @POST
+    @Path("/new-data")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.TEXT_HTML)
+    @RolesAllowed({Role.ADMIN, Role.USER_READ_ONLY})
+    public javax.ws.rs.core.Response newData(@Auth User user, @Context UriInfo uriInfo, @Context HttpHeaders headers,
+                                               @NotEmpty @FormParam("value") Float value,
+                                               @NotEmpty @FormParam("idDevice") int idDevice) {
+
+        Session session = sessionDao.getSession(headers);
+        Response<Data> dataResponse;
+        try {
+
+
+            Data dataToBeSaved = new DataBuilder()
+                    .setValue(value)
+                    .setIdDevice(idDevice)
+                    .createData();
+
+
+            dataResponse = WindFarmDemoApplication.getWindFarmServis()
+                    .saveDatas(session.getBearerToken(), dataToBeSaved)
+                    .execute();
+
+            if (!dataResponse.isSuccessful())
+                throw new WebApplicationException(dataResponse.errorBody().string(), dataResponse.code());
+
+            URI uri = UriBuilder.fromPath("/datas")
+                    .build();
+
+            return javax.ws.rs.core.Response.seeOther(uri)
+                    .build();
+
+            // If password has changed save it!
+            /*Response response = WindFarmDemoApplication.getWindFarmServis().saveNewPassword(session.getBearerToken(), personResponse.body().getId(), password).execute();
+
+
+            if (response.isSuccessful()) {
+                URI uri = UriBuilder.fromPath("/persons")
+                        .build();
+
+                return javax.ws.rs.core.Response.seeOther(uri)
+                        .build();
+            } else {
+                // If password cannot be saved roll back new person
+                WindFarmDemoApplication.getWindFarmServis().deletePerson(session.getBearerToken(), personResponse.body().getId()).execute();
+                throw new WebApplicationException(response.errorBody().string(), response.code());
+            }*/
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new WebApplicationException(e);
+        }
+
+    }
+
+    /*@POST
+    @Path("/data-info")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.TEXT_HTML)
+    @RolesAllowed({Role.ADMIN, Role.USER_READ_ONLY})
+    public DataView setDataInfo(@Auth User user, @Context UriInfo uriInfo, @Context HttpHeaders headers,
+                                    @FormParam("id") Long id,
+                                @NotEmpty @FormParam("value") Float value,
+                                @NotEmpty @FormParam("idDevice") int idDevice) {
+
+        Session session = sessionDao.getSession(headers);
+        Response<Data> dataResponse;
+        try {
+
+            // If password has changed save it!
+            //if (password != null && !password.isEmpty()) {
+            //    WindFarmDemoApplication.getWindFarmServis().saveNewPassword(session.getBearerToken(), id, password).execute();
+            //}
+
+            dataResponse = WindFarmDemoApplication.getWindFarmServis().getData(session.getBearerToken(), id).execute();
+            if (dataResponse.isSuccessful()) {
+                Data dataToBeSaved = dataResponse.body();
+
+                dataToBeSaved.setValue(value);
+                dataToBeSaved.setIdDevice(idDevice);
+
+                //if (user.getRoles().contains(Role.ADMIN)) {
+                 //   if (roles != null && !roles.isEmpty()) {
+                 //       dataToBeSaved.setRoles(roles);
+                 //   }
+                //}
+
+                dataResponse = WindFarmDemoApplication.getWindFarmServis()
+                        .saveDatas(session.getBearerToken(), dataToBeSaved)
+                        .execute();
+
+                if (dataResponse.isSuccessful()) {
+                    return new DataView(uriInfo, user, dataToBeSaved, "Zmeny boli uložené");
+                }
+            }
+
+            throw new WebApplicationException(dataResponse.errorBody().string(), dataResponse.code());
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new WebApplicationException(e);
+        }
+
+    }*/
 }

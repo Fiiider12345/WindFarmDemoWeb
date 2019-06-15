@@ -14,7 +14,10 @@
 {"title":"User info","icon":"person","url":"persons/user-info"},
 {"title":"Nový užívateľ","icon":"person_add","url":"persons/new-user","roles":["ADMIN"]},
 {"title":"Zoznam užívateľov","icon":"group","url":"persons","roles":["ADMIN"]},
+{"title":"Nove data","icon":"person_add","url":"datas/new-data","roles":["ADMIN"]},
 {"title":"Zoznam dat","icon":"group","url":"datas","roles":["ADMIN"]},
+{"title":"Nove zariadenie","icon":"person_add","url":"devices/new-device","roles":["ADMIN"]},
+{"title":"Zoznam zariadeni","icon":"group","url":"devices","roles":["ADMIN"]},
 
 {"subheader":"Subheader 2","divider":"true"},
 {"title":"ADMIN READ_ONLY","url":"#","roles":["ADMIN","USER_READ_ONLY"]},

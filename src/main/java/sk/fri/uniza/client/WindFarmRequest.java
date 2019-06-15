@@ -51,9 +51,21 @@ public interface WindFarmRequest {
     @GET("/api/data")
     Call<Paged<List<Data>>> getPagedData(@Header("Authorization") String authorization, @Query("limit") Integer limit, @Query("page") Integer page);
 
+    @DELETE("/api/datas")
+    Call<Void> deleteData(@Header("Authorization") String bearerToken, @Query("id") Long id);
+
+    @POST("/api/datas")
+    Call<Data> saveDatas(@Header("Authorization") String authorization, @Body Data data);
+
     @GET("/api/device/{id}")
     Call<Device> getDevice(@Header("Authorization") String authorization, @Path("id") Long id);
 
     @GET("/api/device")
     Call<Paged<List<Device>>> getPagedDevice(@Header("Authorization") String authorization, @Query("limit") Integer limit, @Query("page") Integer page);
+
+    @DELETE("/api/devices")
+    Call<Void> deleteDevice(@Header("Authorization") String bearerToken, @Query("id") Long id);
+
+    @POST("/api/devices")
+    Call<Device> saveDevices(@Header("Authorization") String authorization, @Body Device device);
 }
