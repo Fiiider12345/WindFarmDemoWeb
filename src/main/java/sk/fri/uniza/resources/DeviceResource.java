@@ -15,6 +15,7 @@ import sk.fri.uniza.auth.Sessions;
 import sk.fri.uniza.core.Device;
 import sk.fri.uniza.core.DeviceBuilder;
 import sk.fri.uniza.core.User;
+import sk.fri.uniza.views.DeviceView;
 import sk.fri.uniza.views.DevicesView;
 import sk.fri.uniza.views.NewDeviceView;
 
@@ -164,7 +165,7 @@ public class DeviceResource {
 
     }
 
-    /*@POST
+    @POST
     @Path("/device-info")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_HTML)
@@ -211,5 +212,5 @@ public class DeviceResource {
             throw new WebApplicationException(e);
         }
 
-    }*/
+    }
 }

@@ -123,6 +123,5 @@
             $( document ).ready(function() {
                 M.toast({html: '${toastMsg?no_esc}'});
             });
-
         </script>
         </#if>

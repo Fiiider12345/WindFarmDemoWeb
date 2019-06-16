@@ -26,12 +26,8 @@
                         <div class="card-content">
                             <div class="row">
                                 <div class="input-field col s6">
-                                    <input id="value" name="value" type="text" class="validate" required>
-                                    <label for="value">Value</label>
-                                </div>
-                                <div class="input-field col s6">
-                                    <input id="idDevice" name="idDevice" type="text" class="validate" required>
-                                    <label for="idDevice">ID Device</label>
+                                    <input id="deviceID" name="deviceID" type="text" class="validate" required>
+                                    <label for="deviceID">DeviceID</label>
                                 </div>
                             </div>
                         </div>

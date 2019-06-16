@@ -15,7 +15,9 @@ import sk.fri.uniza.auth.Sessions;
 import sk.fri.uniza.core.Data;
 import sk.fri.uniza.core.DataBuilder;
 import sk.fri.uniza.core.User;
+import sk.fri.uniza.views.DataView;
 import sk.fri.uniza.views.DatasView;
+import sk.fri.uniza.views.DevicesView;
 import sk.fri.uniza.views.NewDataView;
 
 import javax.annotation.security.RolesAllowed;
@@ -123,7 +125,7 @@ public class DataResource {
 
 
             Data dataToBeSaved = new DataBuilder()
-                    .setValue(value)
+                    .setValue(22.48f)
                     .setIdDevice(idDevice)
                     .createData();
 
@@ -164,7 +166,7 @@ public class DataResource {
 
     }
 
-    /*@POST
+    @POST
     @Path("/data-info")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_HTML)
@@ -211,5 +213,5 @@ public class DataResource {
             throw new WebApplicationException(e);
         }
 
-    }*/
+    }
 }

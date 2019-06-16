@@ -32,4 +32,8 @@ public class DevicesView extends MaterializePage<MaterializeHeader, MaterializeF
     public User getLoginUser() {
         return loginUser;
     }
+
+    public int getDevicesNumber() {
+        return devices.size();
+    }
 }

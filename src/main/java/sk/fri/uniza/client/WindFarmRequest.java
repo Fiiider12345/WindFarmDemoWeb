@@ -45,10 +45,10 @@ public interface WindFarmRequest {
     @DELETE("/api/persons")
     Call<Void> deletePerson(@Header("Authorization") String bearerToken, @Query("id") Long id);
 
-    @GET("/api/data/{id}")
+    @GET("/api/datas/{id}")
     Call<Data> getData(@Header("Authorization") String authorization, @Path("id") Long id);
 
-    @GET("/api/data")
+    @GET("/api/datas")
     Call<Paged<List<Data>>> getPagedData(@Header("Authorization") String authorization, @Query("limit") Integer limit, @Query("page") Integer page);
 
     @DELETE("/api/datas")
@@ -57,10 +57,10 @@ public interface WindFarmRequest {
     @POST("/api/datas")
     Call<Data> saveDatas(@Header("Authorization") String authorization, @Body Data data);
 
-    @GET("/api/device/{id}")
+    @GET("/api/devices/{id}")
     Call<Device> getDevice(@Header("Authorization") String authorization, @Path("id") Long id);
 
-    @GET("/api/device")
+    @GET("/api/devices")
     Call<Paged<List<Device>>> getPagedDevice(@Header("Authorization") String authorization, @Query("limit") Integer limit, @Query("page") Integer page);
 
     @DELETE("/api/devices")

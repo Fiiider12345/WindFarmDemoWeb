@@ -8,6 +8,7 @@ import javax.ws.rs.core.UriInfo;
 public class NewDataView extends MaterializePage<MaterializeHeader, MaterializeFooter> {
     private final User loginUser;
     private final String toastMsg;
+    //private final DevicesView devicesView;
 
 
     public NewDataView(UriInfo uriInfo, User loginUser, String toastMsg) {
@@ -27,4 +28,6 @@ public class NewDataView extends MaterializePage<MaterializeHeader, MaterializeF
     public Role getSystemRoles() {
         return Role.getInstance();
     }
+
+
 }
