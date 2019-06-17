@@ -1,5 +1,7 @@
 package sk.fri.uniza.core;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.Calendar;
 
 public class Data {

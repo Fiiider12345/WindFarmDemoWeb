@@ -3,6 +3,7 @@ package sk.fri.uniza.resources;
 import io.dropwizard.auth.Auth;
 import io.dropwizard.views.View;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import retrofit2.Response;
@@ -21,6 +22,7 @@ import sk.fri.uniza.views.DevicesView;
 import sk.fri.uniza.views.NewDataView;
 
 import javax.annotation.security.RolesAllowed;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.io.IOException;
@@ -33,6 +35,7 @@ public class DataResource {
 
     final Logger myLogger = LoggerFactory.getLogger(this.getClass());
     private Sessions sessionDao;
+
 
     public DataResource(Sessions sessionDao) {
         this.sessionDao = sessionDao;
@@ -116,8 +119,8 @@ public class DataResource {
     @Produces(MediaType.TEXT_HTML)
     @RolesAllowed({Role.ADMIN, Role.USER_READ_ONLY})
     public javax.ws.rs.core.Response newData(@Auth User user, @Context UriInfo uriInfo, @Context HttpHeaders headers,
-                                               @NotEmpty @FormParam("value") Float value,
-                                               @NotEmpty @FormParam("idDevice") int idDevice) {
+                                             @Range(min=0, max=90) @NotNull @FormParam("value") Float value,
+                                             @Range(min=0, max=90) @NotNull @FormParam("idDevice") Integer idDevice) {
 
         Session session = sessionDao.getSession(headers);
         Response<Data> dataResponse;
@@ -125,7 +128,7 @@ public class DataResource {
 
 
             Data dataToBeSaved = new DataBuilder()
-                    .setValue(22.48f)
+                    .setValue(value)
                     .setIdDevice(idDevice)
                     .createData();
 
