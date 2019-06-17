@@ -18,21 +18,17 @@
                                 </div>
                                 <div class="col s9 m8 l10">
                                     <span class="white-text">
-
                                     </span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                               <div class="input-field col s6">
-                                    <input id="value" name="value" type="value" class="validate" required>
-                                    <label for="value">Value</label>
-                                </div>
-                                <div class="input-field col s6">
-                                    <input id="idDevice" name="idDevice" type="idDevice" class="validate" required>
+                                    <input id="idDevice" name="idDevice" type="text" class="validate" required>
                                     <label for="idDevice">Device ID</label>
                                 </div>
                             </div>
+                         </div>
                     </div>
                 </div>
             </div>

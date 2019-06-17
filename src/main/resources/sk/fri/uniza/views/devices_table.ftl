@@ -23,6 +23,10 @@
                         ${device.content}
                     </td>
                     <td>
+                        <a href="/devices/device-info?id=${device.getId()}" class="btn waves-effect waves-light grey"
+                           name="action">
+                            <i class="material-icons">edit</i>
+                        </a>
                         <a onclick="onDelete('/devices/device-delete?id=${device.getId()}&page=${paged.page}')"
                            class="btn waves-effect waves-light red " name="action">
                             <i class="material-icons">delete_forever</i>
