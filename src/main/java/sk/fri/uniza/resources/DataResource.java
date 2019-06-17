@@ -15,6 +15,7 @@ import sk.fri.uniza.auth.Session;
 import sk.fri.uniza.auth.Sessions;
 import sk.fri.uniza.core.Data;
 import sk.fri.uniza.core.DataBuilder;
+import sk.fri.uniza.core.Device;
 import sk.fri.uniza.core.User;
 import sk.fri.uniza.views.DataView;
 import sk.fri.uniza.views.DatasView;
@@ -119,16 +120,23 @@ public class DataResource {
     @Produces(MediaType.TEXT_HTML)
     @RolesAllowed({Role.ADMIN, Role.USER_READ_ONLY})
     public javax.ws.rs.core.Response newData(@Auth User user, @Context UriInfo uriInfo, @Context HttpHeaders headers,
-                                             @Range(min=0, max=90) @NotNull @FormParam("value") Float value,
                                              @Range(min=0, max=90) @NotNull @FormParam("idDevice") Integer idDevice) {
 
         Session session = sessionDao.getSession(headers);
         Response<Data> dataResponse;
         try {
 
+            Float pom=0f;
+            Response<List< Device >> execute2 = WindFarmDemoApplication.getWindFarmServis().getAllDevices("Bearer " + session.getToken()).execute();
+            String name = execute2.body().get(idDevice).getName();
+            try {
+                pom = WindFarmDemoApplication.call_me(name, "a5201e652ac2ccfc2d0766c1c8e6e310", "main", "temp" );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             Data dataToBeSaved = new DataBuilder()
-                    .setValue(value)
+                    .setValue(pom)
                     .setIdDevice(idDevice)
                     .createData();
 

@@ -68,6 +68,36 @@ public class DeviceResource {
 
     }
 
+
+    @GET
+    @Path("/device-info")
+    @Produces(MediaType.TEXT_HTML)
+    @RolesAllowed({Role.USER_READ_ONLY, Role.ADMIN})
+    public DeviceView getDeviceInfo(@Auth User user, @Context UriInfo uriInfo, @Context HttpHeaders headers, @QueryParam("id") Long deviceID) {
+
+        //if (deviceID == null) deviceID = user.getId();
+
+        if (!user.getRoles().contains(Role.ADMIN))
+            throw new WebApplicationException(javax.ws.rs.core.Response.Status.UNAUTHORIZED);
+
+        Session session = sessionDao.getSession(headers);
+
+        Response<Device> deviceResponse;
+        try {
+
+            deviceResponse = WindFarmDemoApplication.getWindFarmServis().getDevice(session.getBearerToken(), deviceID).execute();
+            if (deviceResponse.isSuccessful()) {
+                Device deviceLoggedIn = deviceResponse.body();
+                return new DeviceView(uriInfo, user, deviceLoggedIn, null);
+            }
+            throw new WebApplicationException(deviceResponse.code());
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new WebApplicationException(e);
+        }
+
+    }
+
     @GET
     @Path("/device-delete")
     @Produces(MediaType.TEXT_HTML)

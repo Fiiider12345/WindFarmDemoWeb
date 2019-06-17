@@ -68,4 +68,7 @@ public interface WindFarmRequest {
 
     @POST("/api/devices")
     Call<Device> saveDevices(@Header("Authorization") String authorization, @Body Device device);
+
+    @GET("/api/devices")
+    Call<List<Device>> getAllDevices(@Header("Authorization") String authorization);
 }

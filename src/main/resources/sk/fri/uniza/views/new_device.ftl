@@ -23,9 +23,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card-content">
+                         <div class="card-content">
                             <div class="row">
-                                <div class="input-field col s6">
+                              <div class="input-field col s6">
                                     <input id="name" name="name" type="text" class="validate" required>
                                     <label for="name">Name</label>
                                 </div>
@@ -34,7 +34,7 @@
                                     <label for="content">Content</label>
                                 </div>
                             </div>
-                        </div>
+                          </div>
                     </div>
                 </div>
             </div>
