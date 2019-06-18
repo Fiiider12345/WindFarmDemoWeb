@@ -128,7 +128,8 @@ public class DataResource {
 
             Float pom=0f;
             Response<List< Device >> execute2 = WindFarmDemoApplication.getWindFarmServis().getAllDevices("Bearer " + session.getToken()).execute();
-            String name = execute2.body().get(idDevice).getName();
+
+            String name = execute2.body().get(idDevice-1).getName();
             try {
                 pom = WindFarmDemoApplication.call_me(name, "a5201e652ac2ccfc2d0766c1c8e6e310", "main", "temp" );
             } catch (Exception e) {
