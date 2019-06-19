@@ -17,6 +17,9 @@ import java.security.Principal;
 import java.util.*;
 
 
+/**
+ * Definuje objekt User, tak ako bude ulozeny v databaze
+ */
 public class User implements Principal {
     private static Random rand = new Random((new Date()).getTime());
     private Long id;
@@ -25,10 +28,19 @@ public class User implements Principal {
     private byte[] secrete;
     private byte[] salt = new byte[8];
 
-    // Hibernate need default constructor
+    /**
+     * Hibernate need default constructor
+     */
     public User() {
     }
 
+    /**
+     * Konstruktor, nastavi hotnoty podla parametrov
+     * @param id Long
+     * @param userName String
+     * @param roles Set<String>
+     * @param password String
+     */
     public User(Long id, String userName, Set<String> roles, String password) {
         this.id = id;
         this.userName = userName;
@@ -37,6 +49,12 @@ public class User implements Principal {
             setNewPassword(password);
     }
 
+    /**
+     * Konstruktor, nastavi hotnoty podla parametrov
+     * @param userName String
+     * @param roles Set<String>
+     * @param password String
+     */
     public User(String userName, Set<String> roles, String password) {
         this.userName = userName;
         this.roles = roles;
@@ -64,6 +82,13 @@ public class User implements Principal {
         return md.digest(ArrayUtils.addAll(salt, password.getBytes()));
     }
 
+    /**
+     * Autentikacia tokenu
+     * @param jwtToken String
+     * @param signingKey Key
+     * @return User
+     * @throws AuthenticationException chybna authentikacia
+     */
     public static User getInstance(String jwtToken, Key signingKey) throws AuthenticationException {
         Claims claimsJws;
         try {
@@ -85,6 +110,12 @@ public class User implements Principal {
                 .createUser();
     }
 
+    /**
+     * Role
+     * @param claims Claims
+     * @return Set<String>
+     * @throws AuthenticationException chybna authentikacia
+     */
     private static Set<String> parseRolesClaim(Claims claims) throws AuthenticationException {
         String scopesObject = claims.get("scope", String.class);
         String[] scopes = {};
@@ -94,11 +125,19 @@ public class User implements Principal {
         return ImmutableSet.copyOf(Arrays.asList(scopes));
     }
 
+    /**
+     * getter
+     * @return Role
+     */
     @JsonIgnore
     public Role getSystemRoles() {
         return Role.getInstance();
     }
 
+    /**
+     * setter
+     * @param userName String
+     */
     @JsonProperty("userName")
     public void setUserName(String userName) {
         this.userName = userName;
@@ -107,29 +146,53 @@ public class User implements Principal {
     /*
       Implement Principal interface
      */
+    /**
+     * getter
+     * @return userName
+     */
     @JsonProperty("userName")
     @Override
     public String getName() {
         return userName;
     }
 
+    /**
+     * getter
+     * @return id
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * getter
+     * @return roles
+     */
     public Set<String> getRoles() {
         return roles;
     }
 
+    /**
+     * setter
+     * @param roles Set<String></>
+     */
     public void setRoles(Set<String> roles) {
         this.roles = roles;
     }
 
+    /**
+     * getter
+     * @return String
+     */
     @JsonIgnore
     public String getRolesString() {
         return String.join(",", roles);
     }
 
+    /**
+     * setter, generuje hash secrete
+     * @param newPassword String
+     */
     public void setNewPassword(String newPassword) {
         rand.nextBytes(salt);
         secrete = User.generateHashSecrete(salt, newPassword);
@@ -144,10 +207,9 @@ public class User implements Principal {
 
     }
 
-    /*
+    /**
      * Builder
      */
-
     public boolean isPresentInSomeRole(List<String> roles) {
 
         return roles.stream().anyMatch(this.roles::contains);
