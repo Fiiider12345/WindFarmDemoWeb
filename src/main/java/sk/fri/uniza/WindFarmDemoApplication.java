@@ -177,7 +177,7 @@ public class WindFarmDemoApplication extends Application<WindFarmDemoConfigurati
         return serverPublicKey;
     }
 
-    public static float call_me(String obec, String apiKey, String jsonObject, String param) throws Exception {
+    /*public static float call_me(String obec, String apiKey, String jsonObject, String param) throws Exception {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("https://api.openweathermap.org/data/2.5/weather?q=");
         stringBuilder.append(obec);
@@ -212,7 +212,7 @@ public class WindFarmDemoApplication extends Application<WindFarmDemoConfigurati
         float f = Float.parseFloat(myResponse.getJSONObject(jsonObject).get(param).toString());
 
         return f;
-     }
+     }*/
 
 }
 

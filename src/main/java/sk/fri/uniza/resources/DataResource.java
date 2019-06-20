@@ -42,7 +42,7 @@ public class DataResource {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
-    @RolesAllowed({Role.ADMIN})
+    @RolesAllowed({Role.ADMIN, Role.USER_READ_ONLY})
     public View getDataTable(@Auth User user, @Context UriInfo uriInfo, @Context HttpHeaders headers, @QueryParam("page") Integer page) {
         String sessionStr = headers.getCookies().get(Sessions.COOKIE_SESSION).getValue();
         Optional<Session> sessionOptional = sessionDao.get(sessionStr);
@@ -107,7 +107,7 @@ public class DataResource {
     @GET
     @Path("/new-data")
     @Produces(MediaType.TEXT_HTML)
-    @RolesAllowed(Role.ADMIN)
+    @RolesAllowed({Role.ADMIN, Role.USER_READ_ONLY})
     public NewDataView newData(@Auth User user, @Context UriInfo uriInfo, @Context HttpHeaders headers) {
         return new NewDataView(uriInfo, user, null);
     }

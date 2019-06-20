@@ -40,7 +40,7 @@ public class DeviceResource {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
-    @RolesAllowed({Role.ADMIN})
+    @RolesAllowed({Role.ADMIN, Role.USER_READ_ONLY})
     public View getDeviceTable(@Auth User user, @Context UriInfo uriInfo, @Context HttpHeaders headers, @QueryParam("page") Integer page) {
         String sessionStr = headers.getCookies().get(Sessions.COOKIE_SESSION).getValue();
         Optional<Session> sessionOptional = sessionDao.get(sessionStr);
@@ -101,7 +101,7 @@ public class DeviceResource {
     @GET
     @Path("/device-delete")
     @Produces(MediaType.TEXT_HTML)
-    @RolesAllowed({Role.USER_READ_ONLY, Role.ADMIN})
+    @RolesAllowed({Role.ADMIN})
     public javax.ws.rs.core.Response deviceDelete(@Auth User user, @Context UriInfo uriInfo, @Context HttpHeaders headers, @QueryParam("id") Long deviceID, @QueryParam("page") Integer page) {
 
         if (deviceID == null) return null;
@@ -143,7 +143,7 @@ public class DeviceResource {
     @Path("/new-device")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_HTML)
-    @RolesAllowed({Role.ADMIN, Role.USER_READ_ONLY})
+    @RolesAllowed({Role.ADMIN})
     public javax.ws.rs.core.Response newDevice(@Auth User user, @Context UriInfo uriInfo, @Context HttpHeaders headers,
                                              @NotEmpty @FormParam("name") String name,
                                              @NotEmpty @FormParam("content") String content) {
@@ -199,7 +199,7 @@ public class DeviceResource {
     @Path("/device-info")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_HTML)
-    @RolesAllowed({Role.ADMIN, Role.USER_READ_ONLY})
+    @RolesAllowed({Role.ADMIN})
     public DeviceView setDeviceInfo(@Auth User user, @Context UriInfo uriInfo, @Context HttpHeaders headers,
                                 @FormParam("id") Long id,
                                     @NotEmpty @FormParam("name") String name,

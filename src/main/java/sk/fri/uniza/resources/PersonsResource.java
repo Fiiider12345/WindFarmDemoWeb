@@ -38,7 +38,7 @@ public class PersonsResource {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
-    @RolesAllowed({Role.ADMIN})
+    @RolesAllowed({Role.ADMIN, Role.USER_READ_ONLY})
     public View getPersonsTable(@Auth User user, @Context UriInfo uriInfo, @Context HttpHeaders headers, @QueryParam("page") Integer page) {
         String sessionStr = headers.getCookies().get(Sessions.COOKIE_SESSION).getValue();
         Optional<Session> sessionOptional = sessionDao.get(sessionStr);
@@ -98,7 +98,7 @@ public class PersonsResource {
     @GET
     @Path("/user-delete")
     @Produces(MediaType.TEXT_HTML)
-    @RolesAllowed({Role.USER_READ_ONLY, Role.ADMIN})
+    @RolesAllowed({Role.ADMIN})
     public javax.ws.rs.core.Response userDelete(@Auth User user, @Context UriInfo uriInfo, @Context HttpHeaders headers, @QueryParam("id") Long personID, @QueryParam("page") Integer page) {
 
         if (personID == null) return null;
@@ -140,7 +140,7 @@ public class PersonsResource {
     @Path("/new-user")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_HTML)
-    @RolesAllowed({Role.ADMIN, Role.USER_READ_ONLY})
+    @RolesAllowed({Role.ADMIN})
     public javax.ws.rs.core.Response newPerson(@Auth User user, @Context UriInfo uriInfo, @Context HttpHeaders headers,
                                                @NotEmpty @FormParam("username") String username,
                                                @NotEmpty @FormParam("first_name") String first_name,

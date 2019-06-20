@@ -1,6 +1,16 @@
 package sk.fri.uniza.core;
 
+import retrofit2.Response;
+import sk.fri.uniza.WindFarmDemoApplication;
+import sk.fri.uniza.api.Paged;
+import sk.fri.uniza.auth.Session;
+import sk.fri.uniza.auth.Sessions;
+import sk.fri.uniza.views.DevicesView;
+
+import javax.ws.rs.WebApplicationException;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Definuje objekt data, konstruktory, atributy a funkcie tak ako budu ulozene v databaze
@@ -124,4 +134,7 @@ public class Data {
     public void setDateOfStart(String dateOfStart) {
         this.dateOfStart = dateOfStart;
     }
+
+
+
 }
