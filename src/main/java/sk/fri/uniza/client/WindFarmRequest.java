@@ -12,7 +12,6 @@ import sk.fri.uniza.core.Device;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Executor;
 
 public interface WindFarmRequest {
 
@@ -71,4 +70,5 @@ public interface WindFarmRequest {
 
     @GET("/api/devices")
     Call<List<Device>> getAllDevices(@Header("Authorization") String authorization);
+
 }

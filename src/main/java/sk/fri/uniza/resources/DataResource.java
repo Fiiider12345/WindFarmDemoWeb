@@ -15,11 +15,9 @@ import sk.fri.uniza.auth.Session;
 import sk.fri.uniza.auth.Sessions;
 import sk.fri.uniza.core.Data;
 import sk.fri.uniza.core.DataBuilder;
-import sk.fri.uniza.core.Device;
 import sk.fri.uniza.core.User;
 import sk.fri.uniza.views.DataView;
 import sk.fri.uniza.views.DatasView;
-import sk.fri.uniza.views.DevicesView;
 import sk.fri.uniza.views.NewDataView;
 
 import javax.annotation.security.RolesAllowed;
@@ -126,18 +124,8 @@ public class DataResource {
         Response<Data> dataResponse;
         try {
 
-            Float pom=0f;
-            Response<List< Device >> execute2 = WindFarmDemoApplication.getWindFarmServis().getAllDevices("Bearer " + session.getToken()).execute();
-
-            String name = execute2.body().get(idDevice-1).getName();
-            try {
-                pom = WindFarmDemoApplication.call_me(name, "a5201e652ac2ccfc2d0766c1c8e6e310", "main", "temp" );
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
             Data dataToBeSaved = new DataBuilder()
-                    .setValue(pom)
+                    .setValue(52.0f)
                     .setIdDevice(idDevice)
                     .createData();
 
@@ -154,22 +142,6 @@ public class DataResource {
 
             return javax.ws.rs.core.Response.seeOther(uri)
                     .build();
-
-            // If password has changed save it!
-            /*Response response = WindFarmDemoApplication.getWindFarmServis().saveNewPassword(session.getBearerToken(), personResponse.body().getId(), password).execute();
-
-
-            if (response.isSuccessful()) {
-                URI uri = UriBuilder.fromPath("/persons")
-                        .build();
-
-                return javax.ws.rs.core.Response.seeOther(uri)
-                        .build();
-            } else {
-                // If password cannot be saved roll back new person
-                WindFarmDemoApplication.getWindFarmServis().deletePerson(session.getBearerToken(), personResponse.body().getId()).execute();
-                throw new WebApplicationException(response.errorBody().string(), response.code());
-            }*/
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -192,23 +164,12 @@ public class DataResource {
         Response<Data> dataResponse;
         try {
 
-            // If password has changed save it!
-            //if (password != null && !password.isEmpty()) {
-            //    WindFarmDemoApplication.getWindFarmServis().saveNewPassword(session.getBearerToken(), id, password).execute();
-            //}
-
             dataResponse = WindFarmDemoApplication.getWindFarmServis().getData(session.getBearerToken(), id).execute();
             if (dataResponse.isSuccessful()) {
                 Data dataToBeSaved = dataResponse.body();
 
                 dataToBeSaved.setValue(value);
                 dataToBeSaved.setIdDevice(idDevice);
-
-                //if (user.getRoles().contains(Role.ADMIN)) {
-                 //   if (roles != null && !roles.isEmpty()) {
-                 //       dataToBeSaved.setRoles(roles);
-                 //   }
-                //}
 
                 dataResponse = WindFarmDemoApplication.getWindFarmServis()
                         .saveDatas(session.getBearerToken(), dataToBeSaved)
