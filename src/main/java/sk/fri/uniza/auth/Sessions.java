@@ -41,10 +41,10 @@ public class Sessions implements BasicDao<Session, String> {
 
     /**
      *
-     * @param headers
-     * @return
-     * @throws NullPointerException
-     * @throws WebApplicationException
+     * @param headers httpheaders
+     * @return session
+     * @throws NullPointerException vynimka
+     * @throws WebApplicationException vynimka
      */
     public Session getSession(HttpHeaders headers) throws NullPointerException, WebApplicationException {
 

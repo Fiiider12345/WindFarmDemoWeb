@@ -22,6 +22,7 @@ public class Data {
     private Float value;
     private int idDevice;
     private String dateOfStart;
+    private int idUser;
 
     /**
      * Hibernate need default constructor
@@ -34,10 +35,12 @@ public class Data {
 
     /**
      * Konstruktor, inicializuje premennu dateOfStart a parameter idDevice
-     * @param idDevice typ int
+     * @param idDevice int
+     * @param idUser int
      */
-    public Data(int idDevice) {
+    public Data(int idDevice, int idUser) {
         this.idDevice = idDevice;
+        this.idUser = idUser;
         Calendar cal=Calendar.getInstance();
         dateOfStart = cal.get(Calendar.DAY_OF_MONTH)+"."+(cal.get(Calendar.MONTH)+1)+"."+cal.get(Calendar.YEAR)+
                 "  " + cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE);
@@ -45,12 +48,14 @@ public class Data {
 
     /**
      * Konstruktor, inicializuje premennu dateOfStart a parametre value, idDevice
-     * @param value Float
+     * @param value float
      * @param idDevice int
+     * @param idUser int
      */
-    public Data(Float value, int idDevice) {
+    public Data(Float value, int idDevice, int idUser) {
         this.value = value;
         this.idDevice = idDevice;
+        this.idUser=idUser;
         Calendar cal=Calendar.getInstance();
         dateOfStart = cal.get(Calendar.DAY_OF_MONTH)+"."+(cal.get(Calendar.MONTH)+1)+"."+cal.get(Calendar.YEAR)+
                 "  " + cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE);
@@ -58,14 +63,16 @@ public class Data {
 
     /**
      * Konstruktor, inicializuje premennu dateOfStart a parametre id, value, idDevice
-     * @param id Long
-     * @param value Float
+     * @param id long
+     * @param value float
      * @param idDevice int
+     * @param idUser int
      */
-    public Data(Long id, Float value, int idDevice) {
+    public Data(Long id, Float value, int idDevice, int idUser) {
         this.id = id;
         this.value = value;
         this.idDevice = idDevice;
+        this.idUser = idUser;
         Calendar cal=Calendar.getInstance();
         dateOfStart = cal.get(Calendar.DAY_OF_MONTH)+"."+(cal.get(Calendar.MONTH)+1)+"."+cal.get(Calendar.YEAR)+
                 "  " + cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE);
@@ -135,6 +142,11 @@ public class Data {
         this.dateOfStart = dateOfStart;
     }
 
+    public int getIdUser() {
+        return idUser;
+    }
 
-
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
 }

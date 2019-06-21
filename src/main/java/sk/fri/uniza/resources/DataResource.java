@@ -26,6 +26,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.io.IOException;
 import java.net.URI;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,9 +58,20 @@ public class DataResource {
                 personLogin = personResponse.body();
             }
 
+
+
             Response<Paged<List<Data>>> execute = WindFarmDemoApplication.getWindFarmServis().getPagedData("Bearer " + session.getToken(), 10, page).execute();
+            List<Data> pomList = execute.body().getData();
+            List<Data> dataList = new LinkedList<>();
+
+            for (Data data : pomList) {
+                if (data.getIdUser() == personLogin.getId().intValue()) {
+                    dataList.add(data);
+                }
+            }
+
             if (execute.isSuccessful()) {
-                return new DatasView(uriInfo, execute.body().getData(), execute.body(), personLogin);
+                return new DatasView(uriInfo, dataList, execute.body(), personLogin);
             }
             return null;
 
@@ -127,6 +139,7 @@ public class DataResource {
             Data dataToBeSaved = new DataBuilder()
                     .setValue(52.0f)
                     .setIdDevice(idDevice)
+                    .setIdUser(user.getId().intValue())
                     .createData();
 
 
